@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Online Shop</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body class="background">
+<!--<h1> Welcome  <span sec:authentication="principal.username"></span></h1>-->
+<div class="card_center">
+    <ul class="list">
+        <li><a th:href="@{/home}" style="text-decoration: none">Home</a></li>
+        <li><a th:href="@{/home/cart}" style="text-decoration: none">Cart</a></li>
+        <li><a th:href="@{/profile}" style="text-decoration: none">Profile</a></li>
+        <li><a th:href="@{/home/find}" style="text-decoration: none">Find</a></li>
+    </ul>
+</div>
+<div style="margin-top:20px">
+    <a th:href="@{/register}" style="text-decoration: none; margin-left: 1200px">Register</a>
+    <a th:href="@{/login}" style="text-decoration: none; margin-left: 70px">Login</a>
+</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<form action="/home/find-by-name" method="get">
+    <input type="text" name="name" placeholder="Что ищете?" class="form-control"/>
+    <button type="submit">Найти</button>
+</form>
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')" style="margin-top: 10px">
+    <a th:href="@{/home/addProduct}">
+        <button type="submit">Добавить новый продукт</button>
+    </a>
+</div>
+<div>
+    <a th:href="@{/home/cart}">
+        <button type="submit">Корзина</button>
+    </a>
+</div>
+<h1 style="margin-bottom: 200px; margin-left: 650px">Товары</h1>
+<form th:action="'/home/sort'" th:method="get">
+    <label for="sortParam">Сортировка</label>
+    <select id="sortParam" name="sortParam" th:action="'/home/sort'" th:method="get">
+        <option value="name_ascending">Отсортировать по имени(↑)</option>
+        <option value="name_descending">Отсортировать по имени(↓)</option>
+        <option value="type_ascending">Отсортировать по типу(↑)</option>
+        <option value="type_descending">Отсортировать по типу(↓)</option>
+        <option value="price_ascending">Отсортировать по цене(↑)</option>
+        <option value="price_descending">Отсортировать по цене(↓)</option>
+    </select>
+    <input type="submit" value="отсортировать"/>
+</form>
+<div th:each="p:${product}">
+    <div style="margin-left: 500px; margin-top:100px">
+        <h2><a th:text="${p.name}"></a></h2>
+        <img th:src="@{/images/{id}(id=${p.previewImageId})}" alt="none" height="300px" width="400px">
+        </n>
+        <h3>Описание:</h3><h4><a th:text="${p.description}"></a></h4>
+        </n>
+        <h3>Цена: <a th:text="${p.price}"></a></h3>
+        </n>
+        <a th:href="@{/home/{id}(id=${p.product_id})}">
+            <button type="submit">Подробнее</button>
+        </a>
+    </div>
+</div>
+</body>
+<html>

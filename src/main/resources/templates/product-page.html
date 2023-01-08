@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+</head>
+<body>
+<div th:each="p:${product}" class="b">
+    <div style="margin-left: 560px; margin-top:100px">
+        <h1><a th:text="${p.name}" style="margin-bottom: 200px"></a></h1>
+        <div th:each="i:${images}">
+            <img th:src="@{/images/{id}(id=${i.id})}" height="150px" width="250px">
+        </div>
+        <h2><a th:text="${p.finalRate}"></ath:text>%</h2>
+        <div th:each="rc:${ratingCategories}">
+            <h2><a th:text="${rc.fiveRate}"></a></h2>
+            <h2><a th:text="${rc.fourRate}"></a></h2>
+            <h2><a th:text="${rc.threeRate}"></a></h2>
+            <h2><a th:text="${rc.twoRate}"></a></h2>
+            <h2><a th:text="${rc.oneRate}"></a></h2>
+        </div>
+        <form th:action="'/home/'+${p.product_id}+'/rate'" th:method="get">
+            <select id="rate" name="rate">
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+            <input type="submit" value="Rate"/>
+        </form>
+        <h2>Название: <a th:text="${p.name}"></a></h2>
+        </n>
+        <h3>Описание:</h3><h4><a th:text="${p.description}"></a></h4>
+        </n>
+        <h3>Цена: <a th:text="${p.price}"></a></h3>
+        </n>
+        <form th:action="'/home/'+${p.product_id}+'/order'" th:method="post">
+            <button type="submit">Add to cart</button>
+        </form>
+        <form th:action="'/home/'+${p.product_id}+'/comment'" th:method="post" >
+            <input th:type="text" th:name="comment" placeholder="Input Comment" class="form-control"/>
+            <button type="submit">Add Comment</button>
+        </form>
+        <div th:each="c:${comments}">
+            <h2><a th:text="${c.comment}"></a></h2>
+            <h2><a th:text="${c.getUser()}"></a></h2>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')" style="margin-top: 10px">
+            <a th:href="'/home/'+${p.product_id}+'/edit'">
+                <button type="submit">Edit</button>
+            </a>
+        </div>
+        <br>
+        <div sec:authorize="hasRole('ROLE_ADMIN')" style="margin-top: 10px">
+            <form method="post" th:action="'/home/'+${p.product_id}+'/delete'"
+                  style="margin-top: 20px;margin-bottom: 50px">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

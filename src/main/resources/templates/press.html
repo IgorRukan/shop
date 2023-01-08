@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" >
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <title>Press</title>
+</head>
+<body class="press">
+<form th:object="${press}" th:action="@{/press}" method="post" class="form">
+    <input type="text" th:field="*{status}" id="status" placeholder="че делал" class="form-control"/>
+    <br>
+    <button type="submit">done</button>
+</form>
+<div>
+    <div style="margin-left: 180px; margin-top:100px">
+        <table width="600" border="1" style="background:ghostwhite">
+            <tr align="center">
+                <th>День</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+            <div th:each="p:${list}">
+                <tr>
+                    <td><a th:text="${p.id}"></a></td>
+                    <td><a th:text="${p.localDateTime}"></a></td>
+                    <td><a th:text="${p.status}"></a></td>
+                </tr>
+            </div>
+        </table>
+    </div>
+</div>
+</body>
+</html>

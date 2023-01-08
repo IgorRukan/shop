@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Cart</h1>
+<audio th:src="song" controls>
+
+</audio>
+<div th:each="c:${cart}">
+    <h3> Номер заказа <a th:text="${c.orderNumber}"></a></h3>
+    <div style="margin-left: 560px; margin-top:100px">
+        <div th:each="p:${c.getProducts()}">
+            <img th:src="@{/images/{id}(id=${p.previewImageId})}" alt="none" height="300px" width="400px">
+            </n>
+            <div th:each="i:${p.getImages()}">
+                <img th:src="@{/images/{id}(id=${i.id})}" height="150px" width="250px">
+            </div>
+            <h2>Название: <a th:text="${p.name}"></a></h2>
+            </n>
+            <h3>Описание:</h3><h4><a th:text="${p.description}"></a></h4>
+            </n>
+            <h3>Цена: <a th:text="${p.price}"></a></h3>
+            </n>
+            <h3>Количество: <a th:text="${c.amount}"></a></h3>
+                <form th:action="'/home/'+'cart/'+${c.orderNumber}" method="post">
+                    <div th:if="${amountError}">
+                        <span th:text="${amountError}"></span>
+                    </div>
+                    <select id="amount" name="amount">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <input type="submit" value="Make an order"/>
+                </form>
+            <form th:action="@{/deleteOrder/{id}(id=${c.id})}" method="post">
+                <input type="submit" value="Remove from cart"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
